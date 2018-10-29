@@ -26,7 +26,7 @@ from inspect import getargspec
 from collections import OrderedDict
 from .util import cosLoad, cosSave
 
-PACKAGE_URL = 'git+https://github.com/agirolami/functions.git'
+PACKAGE_URL = 'git+https://github.com/agirolami87/functions.git'
 
 class TiltCalc(BaseTransformer):
     '''
