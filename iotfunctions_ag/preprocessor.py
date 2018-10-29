@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 import numbers
 import datetime as dt
-from iotfunctions.preprocessor import BaseTransformer
+#from iotfunctions.preprocessor import BaseTransformer
 
 PACKAGE_URL = 'git+https://github.com/agirolami87/functions.git'
 
