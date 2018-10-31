@@ -38,10 +38,9 @@ class TiltCalc(BaseTransformer):
 
     def execute(self, df):
         df = df.copy()
-        a=df[self.input_item].str.split('\[|,|\]').values
-        for r,c in enumerate(a):
-            df.loc[r,self.output_item_x] = np.arcsin(float(c[1])/9.8)
-            df.loc[r,self.output_item_y] = np.arcsin(float(c[2])/9.8)
+        a=df[self.input_item].str.split('\[|,|\]',expand=True)
+        df[self.output_item_x]=a[1].apply(lambda x: np.arcsin(float(x)/9.8))
+        df[self.output_item_y]=a[2].apply(lambda x: np.arcsin(float(x)/9.8))
         return df
 
 class TiltCalcString(BaseTransformer):
@@ -58,15 +57,16 @@ class TiltCalcString(BaseTransformer):
 
     def execute(self, df):
         df = df.copy()
-        a=df[self.input_item].str.split('\[|,|\]').values
-        for r,c in enumerate(a):
-            df.loc[r,self.output_item] = '['+str(np.arcsin(float(c[1])/9.8))+','+str(np.arcsin(float(c[2])/9.8))+']'
+        a=df[self.input_item].str.split('\[|,|\]',expand=True)
+        df[self.output_item]='['+a[1].apply(lambda x: str(np.arcsin(float(x)/9.8)))+','+a[2].apply(lambda x: str(np.arcsin(float(x)/9.8)))+']'
         return df
     
 class ToParquet(BaseTransformer):
     '''
     Denormalize and save as parquet file in COS.
     '''
+
+    url = PACKAGE_URL
     
     def __init__(self, sens_pos, X, Y, Z, cos_credentials, output_status):
         self.sens_pos = sens_pos
