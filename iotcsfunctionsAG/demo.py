@@ -82,6 +82,8 @@ class ToParquet(BaseTransformer):
         bucket = 'iotcs-as-bucket'
         path = 's3test-alberto-%s.parquet' %(dt.datetime.now().isoformat())
         bucket_uri = '{bucket}/{path}'.format(**{'bucket':bucket, 'path': path})
+        client_kwargs = {"endpoint_url": self.cos_credentials["endpoint_url"] }
+        fs = s3fs.S3FileSystem(key=self.cos_credentials["cos_hmac_keys"]["access_key_id"], secret=self.cos_credentials["cos_hmac_keys"]["secret_access_key"], client_kwargs=client_kwargs)
         sink = fs.open(bucket_uri, 'wb')
         df2 = []
         for sens in df[self.sens_pos].drop_duplicates():
